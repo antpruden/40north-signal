@@ -43,7 +43,15 @@ async function bridgeCall(endpoint, action, data = {}) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ secret, action, ...data }),
     });
-    const json = await res.json();
+    const rawText = await res.text();
+    let json;
+    try {
+      json = JSON.parse(rawText);
+    } catch (parseErr) {
+      console.error('API response not JSON:', rawText.slice(0, 500));
+      toast(`API returned invalid JSON (${res.status}): ${rawText.slice(0, 150)}`, 'error');
+      return null;
+    }
     if (!res.ok) {
       toast(json.error || `API error: ${res.status}`, 'error');
       return null;
