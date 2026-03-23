@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>40NORTH SIGNAL</title>
+  <link rel="stylesheet" href="/signal.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <h1>SIGNAL</h1>
+        <span>40NORTH</span>
+      </div>
+      <div class="sidebar-nav">
+        <a href="#dashboard" class="active" data-view="dashboard">
+          <span>Dashboard</span>
+        </a>
+        <a href="#new-campaign" data-view="new-campaign">
+          <span>New Campaign</span>
+        </a>
+        <a href="#queue" data-view="queue">
+          <span>Outreach Queue</span>
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        <button onclick="showSettingsModal()">Settings</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main">
+
+      <!-- Dashboard View -->
+      <div id="view-dashboard" class="view active">
+        <div class="page-header">
+          <h2>Dashboard</h2>
+          <a href="#new-campaign" class="btn btn-primary" data-view="new-campaign">+ New Campaign</a>
+        </div>
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi"><div class="kpi-value" id="kpi-campaigns">-</div><div class="kpi-label">Campaigns</div></div>
+          <div class="kpi"><div class="kpi-value" id="kpi-orgs">-</div><div class="kpi-label">Orgs Found</div></div>
+          <div class="kpi"><div class="kpi-value" id="kpi-contacts">-</div><div class="kpi-label">Contacts</div></div>
+          <div class="kpi"><div class="kpi-value" id="kpi-emails">-</div><div class="kpi-label">Emails</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Campaigns</h3>
+          </div>
+          <div id="campaign-list">
+            <div class="empty-state">
+              <h3>No campaigns yet</h3>
+              <p>Create your first campaign to start prospecting</p>
+              <a href="#new-campaign" class="btn btn-primary" data-view="new-campaign">+ New Campaign</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- New Campaign View -->
+      <div id="view-new-campaign" class="view">
+        <div class="page-header">
+          <h2>New Campaign</h2>
+        </div>
+        <div class="card" style="max-width: 700px;">
+          <div class="form-group">
+            <label>Campaign Name</label>
+            <input type="text" id="campaign-name" placeholder="e.g. NIHL National 2026">
+          </div>
+          <div class="form-group">
+            <label>Sector / Sport</label>
+            <select id="campaign-sector">
+              <option value="Ice Hockey">Ice Hockey</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Rugby">Rugby</option>
+              <option value="Boxing">Boxing</option>
+              <option value="MMA">MMA</option>
+              <option value="Gymnastics">Gymnastics</option>
+              <option value="Football">Football</option>
+              <option value="Events">Events</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ICP Prompt</label>
+            <textarea id="campaign-icp" placeholder="Describe your ideal customer profile in natural language. Include the league/directory, geography, what you're selling, and any exclusions.
+
+Example: UK professional ice hockey clubs in the NIHL National league. We're pitching the 40Live OTT streaming platform for fan monetisation. Most currently stream free on YouTube or don't stream at all. Exclude Manchester Storm (already a client). Target commercial managers, partnership directors, and club directors. Directory: https://www.nihlnational.com"></textarea>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-primary" onclick="startCampaign()">Run Campaign</button>
+            <button class="btn btn-secondary" onclick="saveDraft()">Save as Draft</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Running View -->
+      <div id="view-running" class="view">
+        <div class="progress-container">
+          <h2 style="margin-bottom: 8px;">Running Campaign</h2>
+          <div class="progress-status" id="progress-status">Initialising...</div>
+          <div class="progress-bar-outer">
+            <div class="progress-bar-inner" id="progress-bar" style="width: 0%"></div>
+          </div>
+          <div class="progress-current" id="progress-current"></div>
+          <div id="org-results"></div>
+        </div>
+      </div>
+
+      <!-- Campaign Detail View -->
+      <div id="view-campaign-detail" class="view">
+        <div class="page-header">
+          <h2 id="detail-title">Campaign</h2>
+          <div style="display:flex;gap:8px;">
+            <a href="#dashboard" class="btn btn-secondary" data-view="dashboard">Back</a>
+          </div>
+        </div>
+        <div class="kpi-grid" id="detail-kpis"></div>
+        <div id="detail-orgs"></div>
+      </div>
+
+      <!-- Queue View -->
+      <div id="view-queue" class="view">
+        <div class="page-header">
+          <h2>Outreach Queue</h2>
+          <button class="btn btn-secondary" onclick="loadQueue()">Refresh</button>
+        </div>
+        <div class="card">
+          <div id="queue-content">
+            <div class="empty-state">
+              <h3>No contacts in queue</h3>
+              <p>Run a campaign to populate the outreach queue</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h3>Settings</h3>
+      <div class="form-group">
+        <label>Bridge Secret</label>
+        <input type="password" id="settings-secret" placeholder="Paste your BRIDGE_SECRET here">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeSettings()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Modal -->
+  <div id="email-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h3>Write Email</h3>
+      <div class="form-group">
+        <label>To</label>
+        <input type="email" id="email-to" placeholder="recipient@example.com">
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" id="email-subject">
+      </div>
+      <div class="form-group">
+        <label>Body</label>
+        <textarea id="email-body" style="min-height: 200px;"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeEmailModal()">Cancel</button>
+        <button class="btn btn-green" onclick="sendEmailDraft()">Save to Drafts</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deal Modal -->
+  <div id="deal-modal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h3>Create Brevo Deal</h3>
+      <div class="form-group">
+        <label>Deal Name</label>
+        <input type="text" id="deal-name">
+      </div>
+      <div class="form-group">
+        <label>Pipeline</label>
+        <select id="deal-pipeline" onchange="updateStages()">
+          <option value="6523be54891cd887cb3cbdce">40XFORTY Pipeline</option>
+          <option value="69c01b06d99baa6703032c04">40Live OTT</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Stage</label>
+        <select id="deal-stage"></select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeDealModal()">Cancel</button>
+        <button class="btn btn-amber" onclick="createDeal()">Create Deal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toasts"></div>
+
+  <script src="/signal.js"></script>
+</body>
+</html>

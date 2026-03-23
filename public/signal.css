@@ -1,0 +1,250 @@
+/* signal.css — 40NORTH SIGNAL Design System */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3350;
+  --text: #e2e4f0; --muted: #7b82a8; --accent: #5c6ef8; --accent2: #9b59b6;
+  --green: #2ecc71; --amber: #f0a500; --teal: #1abc9c; --red: #e74c3c;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────────── */
+.app { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 220px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 10;
+}
+
+.sidebar-logo {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.sidebar-logo h1 { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 1px; }
+.sidebar-logo span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+.sidebar-nav { flex: 1; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.sidebar-nav a:hover { color: var(--text); background: var(--bg3); }
+.sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(92,110,248,0.08); }
+
+.sidebar-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-footer button {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px;
+  font-family: var(--font-mono); width: 100%;
+  transition: all 0.15s;
+}
+.sidebar-footer button:hover { border-color: var(--accent); color: var(--accent); }
+
+.main { margin-left: 220px; flex: 1; padding: 24px 32px; min-height: 100vh; }
+
+/* ── Cards & Containers ─────────────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.card-header h3 { font-size: 13px; font-weight: 600; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-align: center;
+}
+.kpi-value { font-size: 28px; font-weight: 700; color: var(--accent); }
+.kpi-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Campaign Cards ─────────────────────────────────────────────────────── */
+.campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+.campaign-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 20px; cursor: pointer; transition: all 0.15s;
+}
+.campaign-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.campaign-card h4 { font-size: 14px; margin-bottom: 8px; }
+.campaign-card .meta { font-size: 11px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Status Badges ──────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-draft { background: rgba(123,130,168,0.15); color: var(--muted); }
+.badge-running { background: rgba(92,110,248,0.15); color: var(--accent); }
+.badge-complete { background: rgba(46,204,113,0.15); color: var(--green); }
+.badge-paused { background: rgba(240,165,0,0.15); color: var(--amber); }
+.badge-error { background: rgba(231,76,60,0.15); color: var(--red); }
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 6px; border: none;
+  font-family: var(--font-mono); font-size: 12px; cursor: pointer;
+  transition: all 0.15s; font-weight: 500;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #4a5ce6; }
+.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: #27ae60; }
+.btn-amber { background: var(--amber); color: #000; }
+.btn-sm { padding: 4px 10px; font-size: 11px; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Forms ──────────────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+input, textarea, select {
+  width: 100%; padding: 10px 12px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text); font-family: var(--font-mono); font-size: 13px;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
+textarea { resize: vertical; min-height: 120px; }
+select { cursor: pointer; }
+select option { background: var(--bg2); }
+
+/* ── Progress View ─────────────────────────────────────────────────────── */
+.progress-container { max-width: 700px; margin: 40px auto; }
+.progress-bar-outer {
+  background: var(--bg3); border-radius: 8px; height: 8px; overflow: hidden; margin: 16px 0;
+}
+.progress-bar-inner {
+  background: linear-gradient(90deg, var(--accent), var(--teal));
+  height: 100%; border-radius: 8px; transition: width 0.4s ease;
+}
+.progress-status { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.progress-current { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 20px; }
+
+.org-result {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; margin-bottom: 8px; font-size: 12px;
+}
+.org-result .org-name { font-weight: 600; }
+.org-result .org-stats { color: var(--muted); display: flex; gap: 12px; }
+.org-result .org-stats .has-email { color: var(--green); }
+.org-result .org-stats .no-email { color: var(--red); }
+
+/* ── Org Detail Blocks ─────────────────────────────────────────────────── */
+.org-block {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 20px; margin-bottom: 16px;
+}
+.org-block h4 { font-size: 14px; margin-bottom: 4px; }
+.org-block .org-meta { font-size: 11px; color: var(--muted); margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+.contact-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: var(--bg3); border-radius: 6px;
+  margin-bottom: 8px; font-size: 12px;
+}
+.contact-row .contact-info { flex: 1; }
+.contact-row .contact-name { font-weight: 600; }
+.contact-row .contact-email { color: var(--teal); font-size: 11px; }
+.contact-row .contact-role { color: var(--muted); font-size: 11px; }
+.contact-row .contact-actions { display: flex; gap: 6px; }
+
+/* ── Modals ─────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7); z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
+}
+.modal h3 { font-size: 15px; margin-bottom: 16px; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+/* ── Empty State ───────────────────────────────────────────────────────── */
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--muted);
+}
+.empty-state h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
+.empty-state p { font-size: 12px; margin-bottom: 20px; }
+
+/* ── Toast Notifications ───────────────────────────────────────────────── */
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 200; }
+.toast {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 12px 16px; margin-bottom: 8px; font-size: 12px;
+  animation: slideIn 0.3s ease;
+}
+.toast-success { border-left: 3px solid var(--green); }
+.toast-error { border-left: 3px solid var(--red); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ── View Transitions ──────────────────────────────────────────────────── */
+.view { display: none; }
+.view.active { display: block; }
+
+.page-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.page-header h2 { font-size: 18px; font-weight: 600; }
+
+/* ── Queue Table ───────────────────────────────────────────────────────── */
+.queue-table { width: 100%; border-collapse: collapse; }
+.queue-table th {
+  text-align: left; padding: 8px 12px; font-size: 10px;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+}
+.queue-table td {
+  padding: 10px 12px; font-size: 12px; border-bottom: 1px solid var(--border);
+}
+.queue-table tr:hover td { background: var(--bg3); }
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { width: 60px; }
+  .sidebar-logo h1, .sidebar-logo span, .sidebar-nav a span, .sidebar-footer { display: none; }
+  .sidebar-nav a { justify-content: center; padding: 12px; }
+  .main { margin-left: 60px; padding: 16px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
